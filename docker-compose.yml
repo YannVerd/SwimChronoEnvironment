@@ -1,0 +1,52 @@
+services:
+  SwimChronoApp: 
+    container_name: SwimChronoApp
+    image: node:alpine
+    working_dir: '/app'
+    ports: 
+      - '3000:3000'
+    volumes:
+      - './SwimChronoApp:/app'
+    command: ash -c "npm create vite@latest .  -- --template react-ts && npm install && npm run dev -- --port 3000 --host"
+    depends_on:
+      - SwimChronoServer
+
+  SwimChronoServer:
+    container_name: SwimChronoServer
+    image: node:alpine
+    working_dir: '/app'
+    ports:
+      - '8080:8080'
+    volumes:
+      - './SwimChronoServer:/app'
+    depends_on:
+      - SwimChronoDB
+    command: ash -c "npm init -y && npm install git express mongoose typescript @types/express tsx && npx tsx index.ts"
+    networks:
+      - sc_network
+  
+  SwimChronoDB:
+    container_name: SwimChronoDB
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    restart: 'always'
+    env_file:
+      - .env
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=swimchrono
+    volumes:
+      - ./SwimChronoData:/data/db
+    networks:
+      - sc_network
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+networks:
+  sc_network:
+    driver: bridge
+    

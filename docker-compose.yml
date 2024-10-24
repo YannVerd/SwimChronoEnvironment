@@ -7,7 +7,7 @@ services:
       - '3000:3000'
     volumes:
       - './SwimChronoApp:/app'
-    command: ash -c "npm create vite@latest .  -- --template react-ts && npm install && npm run dev -- --port 3000 --host"
+    command: ash -c "apk update && apk add git && npm create vite@latest .  -- --template react-ts && npm install && npm run dev -- --port 3000 --host"
     depends_on:
       - SwimChronoServer
 
@@ -21,7 +21,7 @@ services:
       - './SwimChronoServer:/app'
     depends_on:
       - SwimChronoDB
-    command: ash -c "npm init -y && npm install git express mongoose typescript @types/express tsx && npx tsx index.ts"
+    command: ash -c "apk update && apk add git && npm init -y && npm install express mongoose typescript @types/express tsx && npx tsx index.ts"
     networks:
       - sc_network
   

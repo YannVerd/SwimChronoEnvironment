@@ -1,11 +1,10 @@
 # Instructions for deploying the SwimChrono development environment
 
 - Using your terminal, go to the folder you wish to work in
-- run the initProject.sh script with the command: ./initProject.sh
+- after cloning SwimChronoEnvironment, run the initProject.sh script with the command: ./initProject.sh
 - This script uses docker-compose to setup client-side (SwimChronoApp) and server-side (SwimChronoServer) docker containers and a local database.
 - Volume mounting in folders of the same name takes place.
-- Use git init in containers
-- All that remains is to clone the remote repo for the client and server with git clone.
+- Git clones are automatically executed when docker compose up is launched.
 
 ## **WARNING** the script deletes folders, deletes containers and restarts the environment setup **EVERY** time it's used (mainly for testing).
 

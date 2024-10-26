@@ -38,7 +38,7 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
       - MONGO_INITDB_DATABASE=swimchrono
     volumes:
-      - ./SwimChronoData:/data/db
+      - swimchrono_data:/data/db
     networks:
       - sc_network
     healthcheck:
@@ -49,4 +49,8 @@ services:
 networks:
   sc_network:
     driver: bridge
+
+volumes: 
+  swimchrono_data:
+    driver: local
     

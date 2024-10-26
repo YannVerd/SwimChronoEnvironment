@@ -7,7 +7,7 @@ services:
       - '3000:3000'
     volumes:
       - './SwimChronoApp:/app'
-    command: ash -c "apk update && apk add git && git clone https://github.com/YannVerd/SwimChronoApp.git . && npm install && npm run dev -- --port 3000 --host"
+    command: ash -c "if [ ! -d .git ]; then apk update && apk add git && git clone https://github.com/YannVerd/SwimChronoApp.git .; fi && npm install && npm run dev -- --port 3000 --host"
     depends_on:
       - SwimChronoServer
 
@@ -21,7 +21,7 @@ services:
       - './SwimChronoServer:/app'
     depends_on:
       - SwimChronoDB
-    command: ash -c "apk update && apk add git && git clone https://github.com/YannVerd/SwimChronoServer.git . && npm install && npm run dev"
+    command: ash -c "if [ ! -d .git ]; then apk update && apk add git && git clone https://github.com/YannVerd/SwimChronoServer.git .; fi && npm install && npm run dev"
     networks:
       - sc_network
   

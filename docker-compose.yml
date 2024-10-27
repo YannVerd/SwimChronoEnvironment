@@ -3,11 +3,13 @@ services:
     container_name: SwimChronoApp
     image: node:alpine
     working_dir: '/app'
+    stdin_open: true #option -i
+    tty: true        #option -t
     ports: 
       - '3000:3000'
     volumes:
       - './SwimChronoApp:/app'
-    command: ash -c "if [ ! -d .git ]; then apk update && apk add git && git clone https://github.com/YannVerd/SwimChronoApp.git .; fi && npm install && npm run dev -- --port 3000 --host"
+    command: ash -c "if [ ! -d .git ]; then apk update && apk add git && git clone https://github.com/YannVerd/SwimChronoApp.git . && npm install; fi && exec ash"
     depends_on:
       - SwimChronoServer
 
@@ -15,13 +17,15 @@ services:
     container_name: SwimChronoServer
     image: node:alpine
     working_dir: '/app'
+    stdin_open: true
+    tty: true
     ports:
       - '8080:8080'
     volumes:
       - './SwimChronoServer:/app'
     depends_on:
       - SwimChronoDB
-    command: ash -c "if [ ! -d .git ]; then apk update && apk add git && git clone https://github.com/YannVerd/SwimChronoServer.git .; fi && npm install && npm run dev"
+    command: ash -c "if [ ! -d .git ]; then apk update && apk add git && git clone https://github.com/YannVerd/SwimChronoServer.git . && npm install; fi && exec ash"
     networks:
       - sc_network
   

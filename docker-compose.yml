@@ -3,8 +3,6 @@ services:
     container_name: SwimChronoApp
     image: node:alpine
     working_dir: '/app'
-    stdin_open: true #option -i
-    tty: true        #option -t
     ports: 
       - '3000:3000'
     volumes:
@@ -17,8 +15,6 @@ services:
     container_name: SwimChronoServer
     image: node:alpine
     working_dir: '/app'
-    stdin_open: true
-    tty: true
     ports:
       - '8080:8080'
     volumes:
@@ -34,7 +30,7 @@ services:
     image: mongo:latest
     ports:
       - '27017:27017'
-    restart: 'always'
+    #restart: 'always'
     env_file:
       - .env
     environment:
